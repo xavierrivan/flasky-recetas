@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.title }} - Recetas Compartidas{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="recipe-card">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('main.category', category=recipe.category) }}">{{ recipe.category }}</a></li>
+                    <li class="breadcrumb-item active">{{ recipe.title }}</li>
+                </ol>
+            </nav>
+
+            <h1 class="mb-3">{{ recipe.title }}</h1>
+            
+            <div class="mb-4">
+                <span class="category-badge">
+                    <i class="fas fa-tag"></i> {{ recipe.category }}
+                </span>
+                <span class="text-muted ml-3">
+                    <i class="fas fa-user"></i> {{ recipe.author.username }}
+                </span>
+                <span class="text-muted ml-3">
+                    <i class="fas fa-clock"></i> {{ recipe.timestamp.strftime('%d/%m/%Y %H:%M') }}
+                </span>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-info-circle"></i> Descripción
+                    </h5>
+                    <p class="card-text">{{ recipe.description }}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-list"></i> Ingredientes
+                            </h5>
+                            <ul class="list-unstyled">
+                                {% for ingredient in recipe.ingredients.split('\n') %}
+                                <li><i class="fas fa-check text-success"></i> {{ ingredient }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-tasks"></i> Pasos a Seguir
+                            </h5>
+                            <ol class="pl-3">
+                                {% for step in recipe.steps.split('\n') %}
+                                <li class="mb-2">{{ step }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver al Inicio
+                </a>
+            </div>
+
+            {% if current_user.is_authenticated and current_user.id == recipe.author_id %}
+            <a href="{{ url_for('main.edit_recipe', recipe_id=recipe.id) }}" class="btn btn-warning mr-2">
+                <i class="fas fa-edit"></i> Editar Receta
+            </a>
+            <form action="{{ url_for('main.delete_recipe', recipe_id=recipe.id) }}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta receta?');">
+                    <i class="fas fa-trash"></i> Eliminar Receta
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

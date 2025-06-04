@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Receta - Recetas Compartidas{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="recipe-card">
+            <h2 class="mb-4">
+                <i class="fas fa-edit"></i> Editar Receta
+            </h2>
+            <form method="post">
+                <div class="form-group">
+                    <label><i class="fas fa-heading"></i> Título de la Receta</label>
+                    <input class="form-control" type="text" name="title" required value="{{ recipe.title }}">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Descripción</label>
+                    <textarea class="form-control" name="description" rows="2" required>{{ recipe.description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-list"></i> Ingredientes</label>
+                    <textarea class="form-control" name="ingredients" rows="4" required>{{ recipe.ingredients }}</textarea>
+                    <small class="form-text text-muted">Escribe cada ingrediente en una línea nueva</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tasks"></i> Pasos a Seguir</label>
+                    <textarea class="form-control" name="steps" rows="6" required>{{ recipe.steps }}</textarea>
+                    <small class="form-text text-muted">Describe cada paso en detalle</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Categoría</label>
+                    <select class="form-control" name="category" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Desayuno" {% if recipe.category == 'Desayuno' %}selected{% endif %}>Desayuno</option>
+                        <option value="Almuerzo" {% if recipe.category == 'Almuerzo' %}selected{% endif %}>Almuerzo</option>
+                        <option value="Cena" {% if recipe.category == 'Cena' %}selected{% endif %}>Cena</option>
+                        <option value="Postre" {% if recipe.category == 'Postre' %}selected{% endif %}>Postre</option>
+                        <option value="Snack" {% if recipe.category == 'Snack' %}selected{% endif %}>Snack</option>
+                        <option value="Bebida" {% if recipe.category == 'Bebida' %}selected{% endif %}>Bebida</option>
+                    </select>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary btn-lg" type="submit">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                    <a href="{{ url_for('main.recipe_detail', recipe_id=recipe.id) }}" class="btn btn-secondary btn-lg ml-2">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 
