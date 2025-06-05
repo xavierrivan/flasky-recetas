@@ -1,1 +1,1 @@
-web: bash -c "flask db upgrade && flask init-db && gunicorn flasky:app" 
+web: bash -c "flask db init && flask db migrate && flask db upgrade && flask init-db && gunicorn flasky:app" 
