@@ -5,6 +5,8 @@ from config import config
 import os
 import flask.cli
 from flask_migrate import Migrate
+import click
+from flask.cli import with_appcontext
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -24,5 +26,13 @@ def create_app(config_name=None):
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    # Registrar el comando init-db
+    @app.cli.command("init-db")
+    @with_appcontext
+    def init_db_command():
+        """Initialize the database."""
+        db.create_all()
+        click.echo('Initialized the database.')
 
     return app
