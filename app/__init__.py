@@ -4,10 +4,12 @@ from flask_login import LoginManager
 from config import config
 import os
 import flask.cli
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'main.login'
+migrate = Migrate()
 
 def create_app(config_name=None):
     if config_name is None or isinstance(config_name, flask.cli.ScriptInfo):
@@ -18,6 +20,7 @@ def create_app(config_name=None):
 
     db.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
