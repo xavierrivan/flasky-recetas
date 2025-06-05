@@ -75,3 +75,27 @@ Este proyecto es una aplicación web desarrollada con Flask que permite a los us
 - Desarrollado por [Xavier Gordillo]
 - Basado en Flask, SQLAlchemy y Bootstrap
 
+## Despliegue en Render.com
+
+Puedes ver la aplicación desplegada aquí: [https://flasky-recetas.onrender.com](https://flasky-recetas.onrender.com)
+
+### Pasos para desplegar en Render
+
+1. Sube tu repositorio a GitHub.
+2. Crea un nuevo servicio Web en Render y conecta tu repositorio.
+3. En la sección de **Environment** (Variables de entorno), agrega:
+   - `FLASK_CONFIG` con el valor `production` (sin espacios ni saltos de línea extra).
+   - `DATABASE_URL` con la URL de tu base de datos PostgreSQL. **Importante:** Si Render te da una URL que empieza con `https://`, cámbiala a `postgresql://` (solo cambia el prefijo, el resto de la URL no se modifica).
+4. Render detectará automáticamente el archivo `Procfile` y usará Gunicorn para ejecutar la app.
+5. Si tienes errores de conexión a la base de datos, revisa que la variable `DATABASE_URL` esté correctamente configurada.
+6. Si ves errores de configuración, asegúrate de que `FLASK_CONFIG` sea exactamente `production`.
+
+### Ejemplo de variable DATABASE_URL
+```
+postgresql://usuario:contraseña@host:puerto/nombre_db
+```
+
+### Recursos útiles
+- [Documentación de Render](https://render.com/docs/deploy-flask)
+- [Solución de problemas comunes en Render](https://render.com/docs/troubleshooting-deploys)
+
