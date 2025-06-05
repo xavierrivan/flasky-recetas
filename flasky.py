@@ -68,5 +68,5 @@ def update_similar_users():
     db.session.commit()
     print('Relaciones de gustos similares actualizadas.')
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
