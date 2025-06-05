@@ -3,7 +3,7 @@ from app import create_app, db
 from app.models import User, Recipe, SimilarUser
 from flask_migrate import Migrate
 
-app = create_app('development')
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
 
 
@@ -69,4 +69,4 @@ def update_similar_users():
     print('Relaciones de gustos similares actualizadas.')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

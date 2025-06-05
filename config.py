@@ -5,6 +5,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string for recipes app'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'postgresql://postgres:postgres@localhost:5432/flasky_db'
 
     @staticmethod
     def init_app(app):
@@ -13,11 +15,23 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'postgresql://postgres:postgres@localhost:5432/flasky_db'
+
+
+class ProductionConfig(Config):
+    @classmethod
+    def init_app(cls, app):
+        Config.init_app(app)
+
+        # Log to stderr in production
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+
 
 config = {
     'development': DevelopmentConfig,
-
+    'production': ProductionConfig,
     'default': DevelopmentConfig
 }
