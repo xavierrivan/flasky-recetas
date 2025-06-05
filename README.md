@@ -26,6 +26,7 @@ Este proyecto es una aplicación web desarrollada con Flask que permite a los us
    ```bash
    python -m venv venv
    .\venv\Scripts\activate  # En Windows
+   ```
 
 3. **Instala las dependencias:**
    ```bash
@@ -33,8 +34,8 @@ Este proyecto es una aplicación web desarrollada con Flask que permite a los us
    ```
 
 4. **Configura la base de datos:**
-   - Crea una base de datos PostgreSQL (por ejemplo, `flasky_db`).
-   - Ajusta la cadena de conexión en `config.py` si es necesario.
+   - Crea una base de datos PostgreSQL
+   - Ajusta la configuración de la base de datos según tus necesidades
 
 5. **Inicializa la base de datos:**
    ```bash
@@ -42,60 +43,60 @@ Este proyecto es una aplicación web desarrollada con Flask que permite a los us
    flask init-db
    ```
 
-6. **(Opcional) Normaliza ingredientes y relaciones:**
-   ```bash
-   flask update-similar-users
-   ```
-
-7. **Ejecuta la aplicación:**
+6. **Ejecuta la aplicación:**
    ```bash
    flask run
    ```
 
 ## Uso
-- Accede a `http://localhost:5000` en tu navegador.
-- Regístrate o inicia sesión con un usuario existente.
-- Publica recetas, explora las de otros usuarios y elimina las tuyas si lo deseas.
-- Visita el perfil de cualquier usuario para ver con quién tiene gustos similares.
+- Accede a la aplicación a través de tu navegador
+- Regístrate o inicia sesión con un usuario existente
+- Explora y comparte recetas con otros usuarios
+- Gestiona tu perfil y tus recetas
 
 ## Funcionalidad de usuarios similares
-- Cuando publicas una receta, el sistema compara los ingredientes con los de otros usuarios.
-- Si tienes al menos 2 ingredientes en común con otro usuario, se crea una relación automática de gustos similares.
-- Puedes ver estos usuarios en tu perfil.
+- El sistema conecta automáticamente a usuarios con gustos similares
+- Las relaciones se basan en los ingredientes de las recetas compartidas
+- Puedes ver tus conexiones en tu perfil
 
 ## Comandos útiles
-- `flask update-similar-users`: Normaliza los ingredientes de todas las recetas y actualiza las relaciones de gustos similares entre usuarios.
-- `flask init-db`: Inicializa la base de datos.
+- `flask update-similar-users`: Actualiza las relaciones entre usuarios
+- `flask init-db`: Inicializa la base de datos
 
 ## Notas de seguridad
-- Las contraseñas se almacenan de forma segura usando hashes.
-- No uses contraseñas en texto plano en la base de datos.
+- Las contraseñas se almacenan de forma segura
+- Se implementan las mejores prácticas de seguridad web
 
 ## Créditos
 - Desarrollado por [Xavier Gordillo]
 - Basado en Flask, SQLAlchemy y Bootstrap
 
-## Despliegue en Render.com
+## Despliegue
 
-Puedes ver la aplicación desplegada aquí: [https://flasky-recetas.onrender.com](https://flasky-recetas.onrender.com)
+La aplicación está diseñada para ser desplegada en cualquier plataforma de hosting que soporte aplicaciones Python/Flask. Algunas opciones populares incluyen:
 
-### Pasos para desplegar en Render
+- Plataformas PaaS (Platform as a Service)
+- Servidores VPS
+- Servicios de hosting especializados en Python
 
-1. Sube tu repositorio a GitHub.
-2. Crea un nuevo servicio Web en Render y conecta tu repositorio.
-3. En la sección de **Environment** (Variables de entorno), agrega:
-   - `FLASK_CONFIG` con el valor `production` (sin espacios ni saltos de línea extra).
-   - `DATABASE_URL` con la URL de tu base de datos PostgreSQL. **Importante:** Si Render te da una URL que empieza con `https://`, cámbiala a `postgresql://` (solo cambia el prefijo, el resto de la URL no se modifica).
-4. Render detectará automáticamente el archivo `Procfile` y usará Gunicorn para ejecutar la app.
-5. Si tienes errores de conexión a la base de datos, revisa que la variable `DATABASE_URL` esté correctamente configurada.
-6. Si ves errores de configuración, asegúrate de que `FLASK_CONFIG` sea exactamente `production`.
+### Consideraciones para el despliegue
 
-### Ejemplo de variable DATABASE_URL
-```
-postgresql://usuario:contraseña@host:puerto/nombre_db
-```
+1. **Variables de entorno:**
+   - Configura las variables de entorno necesarias para el entorno de producción
+   - Asegúrate de tener una base de datos PostgreSQL configurada
 
-### Recursos útiles
-- [Documentación de Render](https://render.com/docs/deploy-flask)
-- [Solución de problemas comunes en Render](https://render.com/docs/troubleshooting-deploys)
+2. **Base de datos:**
+   - Utiliza una base de datos PostgreSQL en producción
+   - Configura las credenciales de forma segura
+
+3. **Servidor web:**
+   - Se recomienda usar Gunicorn como servidor WSGI
+   - Configura un servidor web como Nginx como proxy inverso
+
+4. **Seguridad:**
+   - Implementa HTTPS
+   - Configura correctamente los headers de seguridad
+   - Mantén las dependencias actualizadas
+
+Para más información sobre el despliegue, consulta la documentación de tu plataforma de hosting preferida.
 
