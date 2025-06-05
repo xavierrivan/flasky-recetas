@@ -1,1 +1,1 @@
-web: gunicorn flasky:app 
+web: bash -c "flask db upgrade && gunicorn flasky:app" 
