@@ -71,32 +71,58 @@ Este proyecto es una aplicación web desarrollada con Flask que permite a los us
 - Desarrollado por [Xavier Gordillo]
 - Basado en Flask, SQLAlchemy y Bootstrap
 
-## Despliegue
 
-La aplicación está diseñada para ser desplegada en cualquier plataforma de hosting que soporte aplicaciones Python/Flask. Algunas opciones populares incluyen:
 
-- Plataformas PaaS (Platform as a Service)
-- Servidores VPS
-- Servicios de hosting especializados en Python
 
-### Consideraciones para el despliegue
 
-1. **Variables de entorno:**
-   - Configura las variables de entorno necesarias para el entorno de producción
-   - Asegúrate de tener una base de datos PostgreSQL configurada
 
-2. **Base de datos:**
-   - Utiliza una base de datos PostgreSQL en producción
-   - Configura las credenciales de forma segura
+## Mejoras Implementadas - Arquitectura y Organización
 
-3. **Servidor web:**
-   - Se recomienda usar Gunicorn como servidor WSGI
-   - Configura un servidor web como Nginx como proxy inverso
+### Mejoras de Arquitectura:
 
-4. **Seguridad:**
-   - Implementa HTTPS
-   - Configura correctamente los headers de seguridad
-   - Mantén las dependencias actualizadas
+#### 1. **Separación de Responsabilidades**
+- **Archivo**: `app/services.py`
+- **Cambio**: Se separó la lógica de negocio de las vistas en servicios especializados
+- **Beneficio**: Cada servicio tiene una única responsabilidad (UserService, RecipeService, SimilarityService)
+- **Marcas en código**: Comentarios explicativos en cada servicio
 
-Para más información sobre el despliegue, consulta la documentación de tu plataforma de hosting preferida.
+#### 2. **Sistema Extensible**
+- **Archivo**: `app/strategies.py`
+- **Cambio**: Sistema de matching extensible que permite agregar nuevas estrategias sin modificar código existente
+- **Beneficio**: Se pueden agregar nuevos algoritmos de matching sin cambiar la lógica principal
+- **Marcas en código**: Comentarios explicativos en cada estrategia
+
+### Patrones de Organización Aplicados:
+
+#### 1. **Estrategias de Matching**
+- **Archivo**: `app/strategies.py`
+- **Cambio**: Implementación de diferentes estrategias de matching de usuarios similares
+- **Estrategias disponibles**:
+  - `IngredientOverlapStrategy`: Matching por ingredientes en común
+  - `CategoryMatchingStrategy`: Matching por categorías de recetas
+  - `HybridMatchingStrategy`: Combinación de ambas estrategias
+- **Beneficio**: Fácil intercambio de algoritmos de matching
+- **Marcas en código**: Comentarios explicativos en cada estrategia
+
+#### 2. **Factories para Creación de Entidades**
+- **Archivo**: `app/factories.py`
+- **Cambio**: Factories para crear diferentes tipos de recetas y usuarios
+- **Tipos disponibles**:
+  - Recetas: `basic`, `detailed`, `quick`
+  - Usuarios: `standard`, `admin`, `premium`
+- **Beneficio**: Creación flexible de objetos sin especificar clases exactas
+- **Marcas en código**: Comentarios explicativos en cada factory
+
+### Archivos Modificados:
+- `app/services.py` - Nuevo archivo con servicios especializados
+- `app/strategies.py` - Nuevo archivo con estrategias de matching
+- `app/factories.py` - Nuevo archivo con factories
+- `app/main/views.py` - Actualizado para usar los nuevos servicios y patrones
+
+### Beneficios de las Mejoras:
+1. **Mantenibilidad**: Código más organizado y fácil de mantener
+2. **Extensibilidad**: Fácil agregar nuevas funcionalidades
+3. **Testabilidad**: Servicios y estrategias pueden ser probados independientemente
+4. **Reutilización**: Servicios pueden ser reutilizados en diferentes partes de la aplicación
+5. **Flexibilidad**: Diferentes estrategias de matching pueden ser intercambiadas fácilmente
 
